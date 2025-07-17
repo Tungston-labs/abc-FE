@@ -1,5 +1,5 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import LayOut from "./Component/layout";
+import LayOut from "./Component/Layout";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Switches from "./Pages/Switches/Switches";
 import Olt from "./Pages/OLT/Olt";
@@ -7,7 +7,7 @@ import Lco from "./Pages/LCO/Lco";
 import ISP from "./Pages/ISP/ISP";
 import Customer from "./Pages/Customer/Customer";
 import Report from "./Pages/Report/Report";
-import EditSwitches from "./Pages/Switches/EditSwitches";
+// import EditSwitches from "./Pages/Switches/EditSwitches";
 import AddCustomer from "./Pages/Customer/AddCustomer";
 import BasicCustomerDetails from "./Pages/Customer/BasicCustomerDetails";
 import Network from "./Pages/Customer/Network";
@@ -35,7 +35,7 @@ function App() {
           <Route path="isp" element={<ISP />} />
           <Route path="customer" element={<Customer />} />
           <Route path="report" element={<Report />} />
-          <Route path="add" element={<EditSwitches />} />
+          {/* <Route path="add" element={<EditSwitches />} /> */}
           <Route path="add-customer" element={<AddCustomer />} />
           <Route path="edit-customer/:id" element={<EditCustomer />} />
           <Route path="basic-customer/:id" element={<BasicCustomerDetails />} />
