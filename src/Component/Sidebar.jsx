@@ -24,15 +24,18 @@ const Sidebar = () => {
     navigate('/login'); // ⬅️ navigate to login page
   };
 
+  const BASE = '/app';
+
   const menuItems = [
-    { path: '/', label: 'Dashboard', icon: <RiHome5Line /> },
-    { path: '/switches', label: 'Switches', icon: <IoIosSwitch /> },
-    { path: '/olt', label: 'OLT', icon: <TbUsersGroup /> },
-    { path: '/lco', label: 'LCO', icon: <TbUsersGroup /> },
-    { path: '/isp', label: 'ISP', icon: <TbCloudNetwork /> },
-    { path: '/customer', label: 'Customer', icon: <FaUserPlus /> },
-    { path: '/report', label: 'Report', icon: <TbReportSearch /> },
+    { path: `${BASE}`, label: 'Dashboard', icon: <RiHome5Line /> },
+    { path: `${BASE}/switches`, label: 'Switches', icon: <IoIosSwitch /> },
+    { path: `${BASE}/olt`, label: 'OLT', icon: <TbUsersGroup /> },
+    { path: `${BASE}/lco`, label: 'LCO', icon: <TbUsersGroup /> },
+    { path: `${BASE}/isp`, label: 'ISP', icon: <TbCloudNetwork /> },
+    { path: `${BASE}/customer`, label: 'Customer', icon: <FaUserPlus /> },
+    { path: `${BASE}/report`, label: 'Report', icon: <TbReportSearch /> },
   ];
+  
 
   return (
     <SidebarContainer>

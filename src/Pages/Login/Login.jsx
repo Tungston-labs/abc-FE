@@ -1,80 +1,69 @@
-// src/components/LoginForm.jsx
 import React, { useState } from 'react';
 import {
-  Background,
-  FormCard,
-  LogoWrapper,
-  Title,Label,
-  Subtitle,
-  InputField,FieldGroup,
-  PasswordWrapper,PasswordLabelRow,
-  ForgotLink,
-  SubmitButton,
+  Background, FormCard, LogoWrapper, Title, Label,
+  Subtitle, InputField, FieldGroup, PasswordWrapper,
+  PasswordLabelRow, ForgotLink, SubmitButton
 } from './Login.Styles';
 
-export default function LoginForm() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+import { loginUser } from '../../services/authService';
+import { useNavigate } from 'react-router-dom';
 
-  const handleSubmit = (e) => {
+export default function LoginForm() {
+  const [email, setEmail] = useState('');  // Use email instead of username
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Username:', username);
-    console.log('Password:', password);
-    alert('Login Attempt!');
+    try {
+      const { data } = await loginUser({ email, password });
+      localStorage.setItem('token', data.access);        // Save access token
+      localStorage.setItem('refresh', data.refresh);     // Optional: save refresh token
+      navigate('/app');                                  // Go to dashboard layout
+    } catch (err) {
+      alert(err.response?.data?.detail || 'Login failed!');
+    }
   };
 
   return (
     <Background>
       <FormCard>
         <LogoWrapper>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <path d="M9.09 9a3 3 0 014.94 2.83L15 14m0 0l2 2m-2-2l-2 2M12 18h.01" />
-          </svg>
+          {/* SVG logo */}
           <p>Logo</p>
         </LogoWrapper>
 
-        <Title>Welcome back !</Title>
+        <Title>Welcome back!</Title>
         <Subtitle>Log in to your account</Subtitle>
 
         <form onSubmit={handleSubmit}>
-  <FieldGroup>
-    <Label htmlFor="username">Username</Label>
-    <InputField
-      id="username"
-      type="text"
-      value={username}
-      onChange={(e) => setUsername(e.target.value)}
-      required
-    />
-  </FieldGroup>
+          <FieldGroup>
+            <Label htmlFor="email">Email</Label>
+            <InputField
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </FieldGroup>
 
-  <FieldGroup>
-    <PasswordLabelRow>
-      <Label htmlFor="password">Password</Label>
-      <ForgotLink href="#">Forgot password?</ForgotLink>
-    </PasswordLabelRow>
-    <InputField
-      id="password"
-      type="password"
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
-      required
-    />
-  </FieldGroup>
+          <FieldGroup>
+            <PasswordLabelRow>
+              <Label htmlFor="password">Password</Label>
+              <ForgotLink href="#">Forgot password?</ForgotLink>
+            </PasswordLabelRow>
+            <InputField
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </FieldGroup>
 
-  <SubmitButton type="submit">Log In</SubmitButton>
-</form>
-
-
+          <SubmitButton type="submit">Log In</SubmitButton>
+        </form>
       </FormCard>
     </Background>
   );
