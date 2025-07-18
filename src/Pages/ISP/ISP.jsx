@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   PageContainer,
   Header,
@@ -11,75 +11,64 @@ import {
   PaginationContainer,
   PaginationButton,
   ActivePage,
-} from './ISP.Styles';
+} from "./ISP.Styles";
 import {
   ModalOverlay,
   ModalContainer,
-  ModalHeader,
-  FormGrid,
-  Input,
-  Label,
-  ButtonRow,
-  CancelButton,
-  SaveButton,
-} from './Add.Styles';
+} from "../../Component/Isp/IspPopUpModal.Styles";
 // import DeleteBox from '../../Component/DeleteBox';
 import { FaCirclePlus } from "react-icons/fa6";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { CiTrash } from "react-icons/ci";
-import DeleteBox from '../../Component/DeleteBox';
-
-// Dummy initial data
-const initialData = Array.from({ length: 11 }, (_, i) => ({
-  id: i + 1,
-  name: 'ISP Name',
-  address: 'Dummy Address',
-}));
+import DeleteBox from "../../Component/DeleteBox";
+import IspPopUpModal from "../../Component/Isp/IspPopUpModal";
+import { getAllIsp } from "../../services/ispServices";
+import TableLoader from "../../Component/Spinners/TableLoader";
 
 const Isp = () => {
-  const [data, setData] = useState(initialData);
   const [showModal, setShowModal] = useState(false);
-  const [editIndex, setEditIndex] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
   const [deleteIndex, setDeleteIndex] = useState(null);
-  const [formValues, setFormValues] = useState({
-    name: '',
-    address: '',
-  });
+  const [isps, setIsps] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedIsp, setSelectedIsp] = useState(null);
+
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const data = await getAllIsp();
+      console.log(data);
+      setIsps(data?.results);
+    } catch (error) {
+      console.error("Failed to fetch switches", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleOpenAddModal = () => {
-    setEditIndex(null);
-    setFormValues({ name: '', address: '' });
+    setIsEdit(false);
+    setSelectedIsp(null);
     setShowModal(true);
   };
 
-  const handleEditClick = (index) => {
-    setEditIndex(index);
-    setFormValues(data[index]);
+  const handleEditClick = (data) => {
+    setIsEdit(true);
+    setSelectedIsp(data);
     setShowModal(true);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormValues((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSave = () => {
-    if (editIndex !== null) {
-      const updated = [...data];
-      updated[editIndex] = formValues;
-      setData(updated);
-    } else {
-      setData([...data, { ...formValues, id: data.length + 1 }]);
-    }
-    setShowModal(false);
-  };
   const handleConfirmDelete = () => {
     const updated = [...data];
     updated.splice(deleteIndex, 1);
     setData(updated);
     setDeleteIndex(null);
   };
-  
+
   return (
     <PageContainer>
       <Header>
@@ -105,26 +94,50 @@ const Isp = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((item, index) => (
-              <TableRow key={index} isEven={index % 2 === 0}>
-                <TableCell>{String(item.id).padStart(3, '0')}</TableCell>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.address}</TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell>
-  <ActionIcon onClick={() => setDeleteIndex(index)}>
-    <CiTrash style={{ color: 'red' }} />
-  </ActionIcon>
-</TableCell>
+            {isLoading ? (
+              <tr>
+                <td
+                  colSpan="7"
+                  style={{ textAlign: "center", padding: "1rem" }}
+                >
+                  <TableLoader />
+                </td>
+              </tr>
+            ) : isps?.length > 0 ? (
+              isps?.map((item, index) => (
+                <TableRow key={index} isEven={index % 2 === 0}>
+                  <TableCell>{String(index + 1).padStart(3, "0")}</TableCell>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.address}</TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell>
+                    <ActionIcon onClick={() => setDeleteIndex(index)}>
+                      <CiTrash style={{ color: "red" }} />
+                    </ActionIcon>
+                  </TableCell>
 
-                <TableCell>
-                  <ActionIcon onClick={() => handleEditClick(index)}>
-                    <HiOutlinePencilSquare />
-                  </ActionIcon>
-                </TableCell>
-              </TableRow>
-            ))}
+                  <TableCell>
+                    <ActionIcon onClick={() => handleEditClick(item)}>
+                      <HiOutlinePencilSquare />
+                    </ActionIcon>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan="7"
+                  style={{
+                    textAlign: "center",
+                    padding: "1rem",
+                    color: "gray",
+                  }}
+                >
+                  No ISPs found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </StyledTable>
       </TableContainer>
@@ -139,48 +152,23 @@ const Isp = () => {
         <PaginationButton>→</PaginationButton>
       </PaginationContainer>
       {deleteIndex !== null && (
-  <ModalOverlay>
-    <ModalContainer>
-      <DeleteBox
-        onCancel={() => setDeleteIndex(null)}
-        onDelete={handleConfirmDelete}  // use "onDelete" not "onConfirm"
-      />
-    </ModalContainer>
-  </ModalOverlay>
-)}
-
-
-
-      {showModal && (
         <ModalOverlay>
           <ModalContainer>
-            <ModalHeader>{editIndex !== null ? 'Edit ISP' : 'Add new ISP'}</ModalHeader>
-            <FormGrid>
-              <div>
-                <Label>ISP Name</Label>
-                <Input
-                  name="name"
-                  value={formValues.name}
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <Label>ISP Address</Label>
-                <Input
-                  name="address"
-                  value={formValues.address}
-                  onChange={handleChange}
-                />
-              </div>
-            </FormGrid>
-
-            <ButtonRow>
-              <CancelButton onClick={() => setShowModal(false)}>Cancel</CancelButton>
-              <SaveButton onClick={handleSave}>Save</SaveButton>
-            </ButtonRow>
+            <DeleteBox
+              onCancel={() => setDeleteIndex(null)}
+              onDelete={handleConfirmDelete} // use "onDelete" not "onConfirm"
+            />
           </ModalContainer>
         </ModalOverlay>
-        
+      )}
+
+      {showModal && (
+        <IspPopUpModal
+          setShowModal={setShowModal}
+          isEdit={isEdit}
+          fetchData={fetchData}
+          selectedIsp={selectedIsp}
+        />
       )}
     </PageContainer>
   );
