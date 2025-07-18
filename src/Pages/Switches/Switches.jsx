@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import {
   PageContainer,
   Header,
@@ -11,59 +11,38 @@ import {
   PaginationContainer,
   PaginationButton,
   ActivePage,
-} from './Switches.Styles';
-import {
-  ModalOverlay,
-  ModalContainer,
-  ModalHeader,
-  FormGrid,
-  Input,
-  Label,
-  ButtonRow,
-  CancelButton,
-  SaveButton,
-} from './Add.Styles';
+} from "./Switches.Styles";
+
 import { FaCirclePlus } from "react-icons/fa6";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
-
-const dummyData = Array.from({ length: 11 }, (_, i) => ({
-  id: i + 1,
-  name: 'Name',
-  uid: '54213645',
-  make: 'Cisco',
-  model_number: '1254112VFD',
-  serial_number: 'ASHGF1254',
-  package_date: '2025-12-12',
-}));
+import { getAllSwitches } from "../../services/switcheService";
+import SwitchPopUpModal from "../../Component/Switches/SwitchPopUpModal";
+import TableLoader from "../../Component/Spinners/TableLoader";
 
 const Switches = () => {
   const [showModal, setShowModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [selectedSwitch, setSelectedSwitch] = useState(null);
-  const [formData, setFormData] = useState({
-    name: '',
-    uid: '',
-    make: '',
-    model_number: '',
-    serial_number: '',
-    package_date: ''
-  });
+  const [switches, setSwitches] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const data = await getAllSwitches();
+      setSwitches(data?.results);
+    } catch (error) {
+      console.error("Failed to fetch switches", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   // Fill form when editing
-  useEffect(() => {
-    if (isEdit && selectedSwitch) {
-      setFormData({ ...selectedSwitch });
-    } else {
-      setFormData({
-        name: '',
-        uid: '',
-        make: '',
-        model_number: '',
-        serial_number: '',
-        package_date: ''
-      });
-    }
-  }, [isEdit, selectedSwitch]);
 
   const handleOpenAddModal = () => {
     setIsEdit(false);
@@ -75,25 +54,6 @@ const Switches = () => {
     setIsEdit(true);
     setSelectedSwitch(item);
     setShowModal(true);
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = () => {
-    if (isEdit) {
-      console.log('Updating switch:', formData);
-      // TODO: call update API
-    } else {
-      console.log('Creating new switch:', formData);
-      // TODO: call create API
-    }
-    setShowModal(false);
   };
 
   return (
@@ -122,22 +82,42 @@ const Switches = () => {
             </tr>
           </thead>
           <tbody>
-            {dummyData.map((item, index) => (
-              <TableRow key={index} isEven={index % 2 === 0}>
-                <TableCell>{String(item.id).padStart(3, '0')}</TableCell>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.uid}</TableCell>
-                <TableCell>{item.make}</TableCell>
-                <TableCell>{item.model_number}</TableCell>
-                <TableCell>{item.serial_number}</TableCell>
-                <TableCell>{item.package_date}</TableCell>
-                <TableCell>
-                  <ActionIcon onClick={() => handleOpenEditModal(item)}>
-                    <HiOutlinePencilSquare />
-                  </ActionIcon>
-                </TableCell>
-              </TableRow>
-            ))}
+            {isLoading ? (
+              <tr>
+                <td
+                  colSpan="8"
+                  style={{ textAlign: "center", padding: "1rem" }}
+                >
+                  <TableLoader/>
+                </td>
+              </tr>
+            ) : switches?.length > 0 ? (
+              switches?.map((item, index) => (
+                <TableRow key={index} isEven={index % 2 === 0}>
+                  <TableCell>{String(index + 1).padStart(3, "0")}</TableCell>
+                  <TableCell>{item?.name}</TableCell>
+                  <TableCell>{item?.uid}</TableCell>
+                  <TableCell>{item?.make}</TableCell>
+                  <TableCell>{item?.model_number}</TableCell>
+                  <TableCell>{item?.serial_number}</TableCell>
+                  <TableCell>{item?.package_date}</TableCell>
+                  <TableCell>
+                    <ActionIcon onClick={() => handleOpenEditModal(item)}>
+                      <HiOutlinePencilSquare />
+                    </ActionIcon>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan="8"
+                  style={{ textAlign: "center", padding: "1rem",color: "gray" }}
+                >
+                  No switches found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </StyledTable>
       </TableContainer>
@@ -153,46 +133,12 @@ const Switches = () => {
       </PaginationContainer>
 
       {showModal && (
-        <ModalOverlay>
-          <ModalContainer>
-            <ModalHeader>{isEdit ? 'Edit Switch' : 'Add New Switch'}</ModalHeader>
-            <FormGrid>
-              <div>
-                <Label>Name</Label>
-                <Input name="name" value={formData.name} onChange={handleChange} />
-              </div>
-              <div>
-                <Label>UID</Label>
-                <Input name="uid" value={formData.uid} onChange={handleChange} />
-              </div>
-              <div>
-                <Label>Make</Label>
-                <Input name="make" value={formData.make} onChange={handleChange} />
-              </div>
-              <div>
-                <Label>Model number</Label>
-                <Input name="model_number" value={formData.model_number} onChange={handleChange} />
-              </div>
-              <div>
-                <Label>Serial number</Label>
-                <Input name="serial_number" value={formData.serial_number} onChange={handleChange} />
-              </div>
-              <div>
-                <Label>Package Date</Label>
-                <Input
-                  type="date"
-                  name="package_date"
-                  value={formData.package_date}
-                  onChange={handleChange}
-                />
-              </div>
-            </FormGrid>
-            <ButtonRow>
-              <CancelButton onClick={() => setShowModal(false)}>Cancel</CancelButton>
-              <SaveButton onClick={handleSubmit}>{isEdit ? 'Save' : 'Save'}</SaveButton>
-            </ButtonRow>
-          </ModalContainer>
-        </ModalOverlay>
+        <SwitchPopUpModal
+          isEdit={isEdit}
+          setShowModal={setShowModal}
+          selectedSwitch={selectedSwitch}
+          fetchData={fetchData}
+        />
       )}
     </PageContainer>
   );

@@ -81,3 +81,8 @@ export const SaveButton = styled.button`
     background-color: #7b3df4;
   }
 `;
+
+export const ErrorText = styled.span`
+ color: red;
+ font-size: 0.75rem;
+ `;
