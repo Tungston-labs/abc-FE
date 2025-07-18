@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   PageContainer,
   Header,
@@ -11,80 +11,48 @@ import {
   PaginationContainer,
   PaginationButton,
   ActivePage,
-} from './Olt.Styles';
-import {
-  ModalOverlay,
-  ModalContainer,
-  ModalHeader,
-  FormGrid,
-  Input,
-  Label,
-  ButtonRow,
-  CancelButton,
-  SaveButton,
-} from './Add.Styles';
+} from "./Olt.Styles";
 import { FaCirclePlus } from "react-icons/fa6";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
-
-const initialData = Array.from({ length: 11 }, (_, i) => ({
-  id: i + 1,
-  name: 'Name',
-  uid: '54213645',
-  make: 'Cisco',
-  model: '1254112VFD',
-  serial: 'ASHGF1254',
-  packageDate: '2025-12-12',
-  switch: 'switch1',
-}));
+import OltPopUpModal from "../../Component/Olt/OltPopUpModal";
+import { getAllOlts } from "../../services/oltServices";
+import TableLoader from "../../Component/Spinners/TableLoader";
 
 const Olt = () => {
-  const [data, setData] = useState(initialData);
   const [showModal, setShowModal] = useState(false);
-  const [editIndex, setEditIndex] = useState(null);
-  const [formValues, setFormValues] = useState({
-    name: '',
-    uid: '',
-    make: '',
-    model: '',
-    serial: '',
-    packageDate: '',
-    switch: '',
-  });
+  const [isEdit, setIsEdit] = useState(false);
+
+  const [selectedOlt, setSelectedOlt] = useState(null);
+  const [olts, setOlts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const data = await getAllOlts();
+      console.log(data);
+      setOlts(data?.results);
+    } catch (error) {
+      console.error("Failed to fetch switches", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const openAddModal = () => {
-    setEditIndex(null);
-    setFormValues({
-      name: '',
-      uid: '',
-      make: '',
-      model: '',
-      serial: '',
-      packageDate: '',
-      switch: '',
-    });
+    setIsEdit(false);
+    setSelectedOlt(null);
     setShowModal(true);
   };
 
-  const openEditModal = (index) => {
-    setEditIndex(index);
-    setFormValues(data[index]);
+  const openEditModal = (data) => {
+    setIsEdit(true);
+    setSelectedOlt(data);
     setShowModal(true);
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormValues((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSave = () => {
-    if (editIndex !== null) {
-      const updated = [...data];
-      updated[editIndex] = formValues;
-      setData(updated);
-    } else {
-      setData([...data, { ...formValues, id: data.length + 1 }]);
-    }
-    setShowModal(false);
   };
 
   return (
@@ -114,23 +82,47 @@ const Olt = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((item, index) => (
-              <TableRow key={index} isEven={index % 2 === 0}>
-                <TableCell>{String(item.id).padStart(3, '0')}</TableCell>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.uid}</TableCell>
-                <TableCell>{item.make}</TableCell>
-                <TableCell>{item.model}</TableCell>
-                <TableCell>{item.serial}</TableCell>
-                <TableCell>{item.packageDate}</TableCell>
-                <TableCell>{item.switch}</TableCell>
-                <TableCell>
-                  <ActionIcon onClick={() => openEditModal(index)}>
-                    <HiOutlinePencilSquare />
-                  </ActionIcon>
-                </TableCell>
-              </TableRow>
-            ))}
+            {isLoading ? (
+              <tr>
+                <td
+                  colSpan="9"
+                  style={{ textAlign: "center", padding: "1rem" }}
+                >
+                  <TableLoader />
+                </td>
+              </tr>
+            ) : olts?.length > 0 ? (
+              olts?.map((item, index) => (
+                <TableRow key={index} isEven={index % 2 === 0}>
+                  <TableCell>{String(index + 1).padStart(3, "0")}</TableCell>
+                  <TableCell>{item?.name}</TableCell>
+                  <TableCell>{item?.uid}</TableCell>
+                  <TableCell>{item?.make}</TableCell>
+                  <TableCell>{item?.model_number}</TableCell>
+                  <TableCell>{item?.serial_number}</TableCell>
+                  <TableCell>{item?.package_date}</TableCell>
+                  <TableCell>{item?.switch}</TableCell>
+                  <TableCell>
+                    <ActionIcon onClick={() => openEditModal(item)}>
+                      <HiOutlinePencilSquare />
+                    </ActionIcon>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan="9"
+                  style={{
+                    textAlign: "center",
+                    padding: "1rem",
+                    color: "gray",
+                  }}
+                >
+                  No OLTs found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </StyledTable>
       </TableContainer>
@@ -146,61 +138,12 @@ const Olt = () => {
       </PaginationContainer>
 
       {showModal && (
-        <ModalOverlay>
-          <ModalContainer>
-            <ModalHeader>{editIndex !== null ? 'Edit OLT' : 'Add New OLT'}</ModalHeader>
-            <FormGrid>
-              <div>
-                <Label>Name</Label>
-                <Input name="name" value={formValues.name} onChange={handleChange} />
-              </div>
-              <div>
-                <Label>UID</Label>
-                <Input name="uid" value={formValues.uid} onChange={handleChange} />
-              </div>
-              <div>
-                <Label>Make</Label>
-                <Input name="make" value={formValues.make} onChange={handleChange} />
-              </div>
-              <div>
-                <Label>Model number</Label>
-                <Input name="model" value={formValues.model} onChange={handleChange} />
-              </div>
-              <div>
-                <Label>Serial number</Label>
-                <Input name="serial" value={formValues.serial} onChange={handleChange} />
-              </div>
-              <div>
-                <Label>Package Date</Label>
-                <Input type="date" name="packageDate" value={formValues.packageDate} onChange={handleChange} />
-              </div>
-              <div>
-                <Label>Switch</Label>
-                <select
-                  name="switch"
-                  value={formValues.switch}
-                  onChange={handleChange}
-                  style={{
-                    width: '100%',
-                    padding: '10px',
-                    borderRadius: '8px',
-                    border: '1px solid #ccc',
-                    backgroundColor: '#f9f9f9'
-                  }}
-                >
-                  <option value="">Select Option</option>
-                  <option value="switch1">Switch 1</option>
-                  <option value="switch2">Switch 2</option>
-                  <option value="switch3">Switch 3</option>
-                </select>
-              </div>
-            </FormGrid>
-            <ButtonRow>
-              <CancelButton onClick={() => setShowModal(false)}>Cancel</CancelButton>
-              <SaveButton onClick={handleSave}>Save</SaveButton>
-            </ButtonRow>
-          </ModalContainer>
-        </ModalOverlay>
+        <OltPopUpModal
+          setShowModal={setShowModal}
+          isEdit={isEdit}
+          selectedOlt={selectedOlt}
+          fetchData={fetchData}
+        />
       )}
     </PageContainer>
   );
