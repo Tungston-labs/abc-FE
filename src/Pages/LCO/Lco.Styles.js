@@ -18,10 +18,10 @@ export const Header = styled.div`
 
 export const AddButton = styled.button`
   background-color: rgba(91, 31, 243, 0.30);
-  color: #5B1FF3;
+  color: #4042E2;
   padding: 9px 16px;
   border-radius: 10px;
-  border: 1px solid #5B1FF3;
+  border: 1px solid #4042E2;
   font-size: 14px;
   cursor: pointer;
   width: 30%;
@@ -79,7 +79,7 @@ export const TableCell = styled.td`
 `;
 
 export const ActionIcon = styled.div`
-  color: #7b3df4;
+  color: #4042E2;
   font-size: 16px;
   cursor: pointer;
 
@@ -92,7 +92,7 @@ export const PaginationContainer = styled.div`
   display: flex;
 //   justify-content: center;
   align-items: ;
-  background-color: rgba(123, 61, 244, 0.2); // light purple background
+  background-color:#4042E2; // light purple background
   padding: 6px ;
 //   border-radius: 16px;
   margin-top: 24px;
@@ -117,10 +117,10 @@ export const PaginationButton = styled.button`
 `;
 
 export const ActivePage = styled(PaginationButton)`
-  background-color: #5B1FF3;
+  background-color: #4042E2;
   color: white;
   font-weight: bold;
-  border: 1px solid #4a0df0;
+  border: 1px solid #4042E2;
 `;
 
 

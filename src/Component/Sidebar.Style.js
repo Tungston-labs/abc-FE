@@ -16,17 +16,21 @@ export const SidebarContainer = styled.div`
 `;
 
 export const Logo = styled.div`
-  font-size: 24px;
-  font-weight: bold;
-  color: #7b3df4;
   margin-bottom: 32px;
   text-align: center;
+
+  img {
+    max-width: 100%;
+    height: auto;
+    width: 5rem; /* or whatever width you prefer */
+  }
 `;
 
 export const MenuList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  
   
 `;
 
@@ -37,31 +41,14 @@ export const MenuItem = styled.div`
   padding: 8px 12px;
   cursor: pointer;
   position: relative;
-  color: ${({ active }) => (active ? '#5B1FF3' : '#333')};
-  background-color: ${({ active }) => (active ? '#EAEAEA' : 'transparent')};
+  color: ${({ active }) => (active ? 'black' : '#848484')};
+  background-color: ${({ active }) => (active ? '#83B1C9' : 'transparent')};
   font-family: Lato;
 
   &:hover {
-    background-color: #EAEAEA;
-    color: #5B1FF3;
+    background-color: #83B1C9;
+    color: black;
   }
-
-  &::before {
-    content: ${({ active }) => (active ? "''" : 'none')};
-    position: absolute;
-    left: 0;
-    top: 6px;
-    bottom: 6px;
-    width: 4px;
-    background-color: #5B1FF3;
-    border-radius: 4px;
-  }
-`;
-
-export const ActiveMenu = styled(MenuItem)`
-  position: relative;
-  background-color: #EAEAEA;
-  color: #5B1FF3;
 
   &::before {
     content: '';
@@ -70,14 +57,37 @@ export const ActiveMenu = styled(MenuItem)`
     top: 6px;
     bottom: 6px;
     width: 4px;
-    background-color: #5B1FF3;
+    background-color: ${({ active }) => (active ? 'black' : 'transparent')};
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+
+  &:hover::before {
+    background-color: black;
+  }
+`;
+
+
+export const ActiveMenu = styled(MenuItem)`
+  background-color: #83B1C9;
+  color: #4042E2;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 4px;
+    background-color: #4042E2;
     border-radius: 4px;
   }
 
   &:hover {
-    background-color: #eae6ff;
+    background-color: #83B1C9;
   }
 `;
+
 
 
 

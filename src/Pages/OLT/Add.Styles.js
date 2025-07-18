@@ -71,13 +71,13 @@ export const CancelButton = styled.button`
 export const SaveButton = styled.button`
   padding: 10px 24px;
   background-color: #c6a9ff;
-  border: 1px solid #7b3df4;
+  border: 1px solid #4042E2;
   color: white;
   font-weight: bold;
   border-radius: 8px;
   cursor: pointer;
 
   &:hover {
-    background-color: #7b3df4;
+    background-color: #4042E2;
   }
 `;

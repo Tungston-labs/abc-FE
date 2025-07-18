@@ -15,14 +15,19 @@ import ISPINFORMATION from "./Pages/Customer/ISPINFORMATION";
 import EditCustomer from "./Pages/Customer/EditCustomer";
 import Information from "./Component/Information";
 import Login from "./Pages/Login/Login";
-
+import Forget from "./Pages/Login/Forget"
+import Verification from "./Pages/Login/Verification";
+import Setpassword from "./Pages/Login/Setpassword"
 function App() {
   return (
     <>
       <Routes>
         {/* Public route */}
         <Route path="/login" element={<Login />} />
-
+        <Route path="/forget-password" element={<Forget />} />
+        <Route path="/verification" element={<Verification />} />
+        <Route path="/set-password" element={<Setpassword />} />
+        
         {/* Redirect root "/" to login */}
         <Route path="/" element={<Navigate to="/login" replace />} />
 

@@ -30,11 +30,11 @@ export const LogoWrapper = styled.div`
     width: 4rem;
     height: 4rem;
     margin: 0 auto;
-    color: #8b5cf6;
+    color: #4042E2;
   }
   p {
     margin-top: 0.25rem;
-    color: #8b5cf6;
+    color: #4042E2;
     font-size: 0.75rem;
     font-weight: 600;
   }
@@ -67,7 +67,7 @@ export const InputField = styled.input`
  font-family: 'Urbanist';
   &:focus {
     outline: none;
-    border-color: #8b5cf6;
+    border-color: #4042E2;
     box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
   }
 `;
@@ -95,7 +95,7 @@ export const PasswordWrapper = styled.div`
 export const SubmitButton = styled.button`
   width: 100%;
   padding: 0.75rem;
-  background-color: #8b5cf6;
+  background-color: #4042E2;
   color: white;
   border-radius: 7px;
   border: none;
@@ -105,7 +105,7 @@ export const SubmitButton = styled.button`
   transition: background 0.3s ease-in-out;
 
   &:hover {
-    background-color:#794AFF;
+    background-color:#4042E2;
   }
 
   &:focus {
@@ -131,10 +131,32 @@ export const Label = styled.label`
 
 export const ForgotLink = styled.a`
   font-size: 0.8rem;
-  color: #8c52ff;
+  color: #4042E2;
   text-decoration: none;
  font-family: 'Urbanist';
   &:hover {
     text-decoration: underline;
+  }
+`;
+export const OtpContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+`;
+
+export const OtpInput = styled.input`
+  width: 48px;
+  height: 48px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+
+  &:focus {
+    outline: none;
+    border-color: #4042E2;
+    background-color: #f0f0ff;
   }
 `;

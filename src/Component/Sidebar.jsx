@@ -39,7 +39,10 @@ const Sidebar = () => {
 
   return (
     <SidebarContainer>
-      <Logo>Logo</Logo>
+  <Logo>
+  <img src="/images/logo.jpg" alt="Logo" />
+</Logo>
+
 
       <MenuList>
         {menuItems.map((item) => (
