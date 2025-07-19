@@ -23,7 +23,7 @@ gap: 6px;
 `;
 
 export const AddButton = styled.button`
-background: #c5b3ff;
+background: #83B1C9;
 border: none;
 padding: 12px 18px;
 border-radius: 10px;
@@ -65,7 +65,7 @@ width: 100%;
 height: 100%;
 object-fit: cover;
 border-radius: 50%;
-border: 4px solid #794cfc;
+border: 4px solid #83B1C9;
 `;
 
 export const CameraIcon = styled.div`
@@ -73,8 +73,8 @@ position: absolute;
 bottom: 0;
 right: 0;
 background: white;
-border: 2px solid #794cfc;
-color: #794cfc;
+border: 2px solid #83B1C9;
+color: #83B1C9;
 padding: 5px;
 border-radius: 50%;
 `;
@@ -86,8 +86,8 @@ gap: 10px;
 
 export const UploadBtn = styled.button`
 padding: 10px 14px;
-border: 1px solid #794cfc;
-color: #794cfc;
+border: 1px solid #83B1C9;
+color: #83B1C9;
 background: white;
 border-radius: 8px;
 `;

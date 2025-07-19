@@ -33,7 +33,7 @@ export const AddButton = styled.button`
   gap: 8px; /* this creates space between icon and text */
 
   &:hover {
-    background-color: #682ddf;
+    // background-color: #682ddf;
     color: white;
   }
 `;
@@ -80,7 +80,7 @@ export const TableCell = styled.td`
 `;
 
 export const ActionIcon = styled.div`
-  color: #4042E2;
+  // color: #4042E2;
   font-size: 16px;
   cursor: pointer;
 
