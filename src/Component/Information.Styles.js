@@ -43,7 +43,7 @@ export const LockIcon = styled.span`
   margin-left: 0.5rem;
   display: flex;
   align-items: center;
-  color: #6d28d9; 
+  color: #83B1C9; 
 
   svg {
     width: 18px;
@@ -52,7 +52,7 @@ export const LockIcon = styled.span`
 `;
 
 export const SubmitButton = styled.button`
-  background-color: #7c3aed; /* purple-600 */
+  background-color: #83B1C9; /* purple-600 */
   color: white;
   padding: 0.75rem 2rem;
   border-radius: 8px;
@@ -62,11 +62,11 @@ export const SubmitButton = styled.button`
   transition: background 0.3s;
 
   &:hover {
-    background-color: #6d28d9; /* darker purple */
+    background-color: #83B1C9; /* darker purple */
   }
 `;
 export const Button = styled.button`
-  background-color: #7c3aed; /* purple-600 */
+  background-color: #83B1C9; /* purple-600 */
   color: white;
   padding: 0.75rem 2rem;
   border-radius: 8px;
@@ -76,7 +76,7 @@ export const Button = styled.button`
   transition: background 0.3s;
 
   &:hover {
-    background-color: #6d28d9; /* darker purple */
+    background-color: #83B1C9; /* darker purple */
   }
 `;
 
@@ -84,14 +84,14 @@ export const Checkbox = styled.input.attrs({ type: 'checkbox' })`
   appearance: none;
   width: 18px;
   height: 18px;
-  border: 2px solid #7c3aed;
+  border: 2px solid #83B1C9;
   border-radius: 4px;
   cursor: pointer;
   position: relative;
   transition: background-color 0.2s ease-in-out;
 
   &:checked {
-    background-color: #7c3aed;
+    background-color: #83B1C9;
   }
 
   &:checked::after {

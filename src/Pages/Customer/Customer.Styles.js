@@ -17,15 +17,16 @@ gap:1rem;
 `;
 
 export const AddButton = styled.button`
-  background-color: rgba(91, 31, 243, 0.30);
-  color: #5B1FF3;
+  background-color:#83B1C9;
+  color: black;
   padding: 9px 16px;
   border-radius: 10px;
-  border: 1px solid #5B1FF3;
-  font-size: 14px;
+  border: 1px solid black;
+  font-size: 18px;
   cursor: pointer;
-  width: 25%;
-
+  width: 30%;
+  font-family: 'Lato', sans-serif;
+  height:2.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,14 +38,14 @@ export const AddButton = styled.button`
   }
 `;
 export const AddButtons = styled.button`
-  background-color: rgba(91, 31, 243, 0.30);
-  color: #5B1FF3;
+  background-color: #83B1C9;
+  color: black;
   padding: 9px 16px;
   border-radius: 10px;
-  border: 1px solid #5B1FF3;
-  font-size: 14px;
+  border: 1px solid black;
+  font-size: 18px;
   cursor: pointer;
-  width: 12%;
+  width: 15%;
 
   display: flex;
   align-items: center;
@@ -98,7 +99,7 @@ export const TableCell = styled.td`
 `;
 
 export const ActionIcon = styled.div`
-  color: #7b3df4;
+  color: black;
   font-size: 16px;
   cursor: pointer;
 
@@ -111,12 +112,13 @@ export const PaginationContainer = styled.div`
   display: flex;
 //   justify-content: center;
   align-items: ;
-  background-color: rgba(123, 61, 244, 0.2); // light purple background
+  background-color:#D3D3D3;
   padding: 6px ;
 //   border-radius: 16px;
   margin-top: 24px;
   gap: 10px;
   width:13.5rem;
+  
 `;
 
 export const PaginationButton = styled.button`
@@ -125,7 +127,7 @@ export const PaginationButton = styled.button`
   border: none;
   padding: 2px ;
   border-radius: 3px;
-  font-size: 12px;
+  font-size: 15px;
   cursor: pointer;
   min-width: 20px;
   box-shadow: 0px 1px 2px rgba(0,0,0,0.1);
@@ -136,10 +138,11 @@ export const PaginationButton = styled.button`
 `;
 
 export const ActivePage = styled(PaginationButton)`
-  background-color: #5B1FF3;
+  background-color: #83B1C9;
   color: white;
   font-weight: bold;
-  border: 1px solid #4a0df0;
+border: 0.5px solid rgba(0, 0, 0, 0.20);
+
 `;
 
 export const ModalOverlay = styled.div`

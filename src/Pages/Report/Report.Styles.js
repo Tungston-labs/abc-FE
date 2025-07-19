@@ -11,7 +11,7 @@ export const SearchContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  background-color: rgba(123, 61, 244, 0.1); /* light lavender */
+  background-color: #DAE5EF; /* light lavender */
   padding: 7px;
   border-radius: 7px;
 
@@ -67,9 +67,9 @@ export const ClearButton = styled.button`
   }
 `;
 export const SettingButton = styled.button`
-  background-color: rgba(123, 61, 244, 0.08);
-  color: #7b3df4;
-  border: 1px solid #7b3df4;
+  background-color: #83B1C9;
+ 
+  border: 1px solid ;
   padding: 8px 16px;
   border-radius: 8px;
   font-size: 15px;
@@ -80,14 +80,15 @@ export const SettingButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: rgba(123, 61, 244, 0.2);
+    // background-color: rgba(123, 61, 244, 0.2);
+    color:white;
   }
 `;
 
 export const SearchButton = styled.button`
-  background-color: #7b3df4;
+  background-color: #83B1C9;
   border: none;
-  color: white;
+  color: black;
   padding: 8px 16px;
   border-radius: 8px;
   font-weight: 500;
@@ -95,14 +96,15 @@ export const SearchButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: #682ddf;
+    // background-color: #682ddf;
+    color:white;
   }
 `;
 
 export const FilterButton = styled.button`
   background-color: rgba(123, 61, 244, 0.08);
-  color: #7b3df4;
-  border: 1px solid #7b3df4;
+  color: #83B1C9;
+  border: 1px solid #83B1C9;
   padding: 8px 16px;
   border-radius: 8px;
   font-size: 14px;
@@ -113,7 +115,7 @@ export const FilterButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: rgba(123, 61, 244, 0.2);
+    // background-color: rgba(123, 61, 244, 0.2);
   }
 `;
 

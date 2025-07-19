@@ -17,7 +17,7 @@ export const ProfileWrapper = styled.div`
   align-items: center;
   gap: 10px;
   padding: 6px 12px;
-  border: 1px solid #7b3df4;
+  border: 1px solid #83B1C9;
   border-radius: 10px;
 `;
 

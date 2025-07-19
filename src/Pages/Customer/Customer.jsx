@@ -106,18 +106,19 @@ const Customer = () => {
                 <TableCell>{item.planexp}</TableCell>
                 <TableCell>
                   <IoMdEye
-                    style={{ color: "#794cfc", fontSize: "15px", cursor: "pointer" }}
+                    style={{ color: "black", fontSize: "15px", cursor: "pointer" }}
                     onClick={() => navigate(`/basic-customer/${item.id}`)}
                   />
+                </TableCell>
+                
+                <TableCell>
+                  <ActionIcon onClick={() => navigate(`/edit-customer/${item.id}`)}>
+                    <HiOutlinePencilSquare />
+                  </ActionIcon>
                 </TableCell>
                 <TableCell>
                   <ActionIcon onClick={() => setDeleteIndex(index)}>
                     <CiTrash style={{ color: 'red', fontSize: "15px" }} />
-                  </ActionIcon>
-                </TableCell>
-                <TableCell>
-                  <ActionIcon onClick={() => navigate(`/edit-customer/${item.id}`)}>
-                    <HiOutlinePencilSquare />
                   </ActionIcon>
                 </TableCell>
               </TableRow>
@@ -127,15 +128,19 @@ const Customer = () => {
       </TableContainer>
 
       {/* Pagination */}
-      <PaginationContainer>
-        <PaginationButton>←</PaginationButton>
-        <PaginationButton>1</PaginationButton>
-        <ActivePage>2</ActivePage>
-        <PaginationButton>3</PaginationButton>
-        <PaginationButton>4</PaginationButton>
-        <PaginationButton>5</PaginationButton>
-        <PaginationButton>→</PaginationButton>
-      </PaginationContainer>
+    {/* Pagination - Only show when there's filtered data */}
+{filteredData.length > 0 && (
+  <PaginationContainer>
+    <PaginationButton>←</PaginationButton>
+    <PaginationButton>1</PaginationButton>
+    <ActivePage>2</ActivePage>
+    <PaginationButton>3</PaginationButton>
+    <PaginationButton>4</PaginationButton>
+    <PaginationButton>5</PaginationButton>
+    <PaginationButton>→</PaginationButton>
+  </PaginationContainer>
+)}
+
 
       {/* Delete Modal */}
       {deleteIndex !== null && (

@@ -127,15 +127,18 @@ const Olt = () => {
         </StyledTable>
       </TableContainer>
 
-      <PaginationContainer>
-        <PaginationButton>←</PaginationButton>
-        <PaginationButton>1</PaginationButton>
-        <ActivePage>2</ActivePage>
-        <PaginationButton>3</PaginationButton>
-        <PaginationButton>4</PaginationButton>
-        <PaginationButton>5</PaginationButton>
-        <PaginationButton>→</PaginationButton>
-      </PaginationContainer>
+      {olts?.length > 0 && (
+  <PaginationContainer>
+    <PaginationButton>←</PaginationButton>
+    <PaginationButton>1</PaginationButton>
+    <ActivePage>2</ActivePage>
+    <PaginationButton>3</PaginationButton>
+    <PaginationButton>4</PaginationButton>
+    <PaginationButton>5</PaginationButton>
+    <PaginationButton>→</PaginationButton>
+  </PaginationContainer>
+)}
+
 
       {showModal && (
         <OltPopUpModal

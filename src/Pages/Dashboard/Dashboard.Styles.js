@@ -94,7 +94,7 @@ export const CardValue = styled.h3`
 `;
 
 export const CardImage = styled.img`
-  width: 80px;
+  width: 100px;
   height: 80px;
   object-fit: contain;
   margin: 0 auto 10px;
