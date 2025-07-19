@@ -24,18 +24,8 @@ import LcoPopUpModal from "../../Component/Lco/LcoPopUpModal";
 import { deleteLcoById, getAllLcos } from "../../services/lcoServices";
 import TableLoader from "../../Component/Spinners/TableLoader";
 import Swal from "sweetalert2";
-const initialData = Array.from({ length: 11 }, (_, i) => ({
-  id: i + 1,
-  name: "Name",
-  address: "dummy address",
-  adharnumber: "4678765",
-  phnumber: "9999999999",
-  email: "dummy@gmail.com",
-  olt: "olt1",
-}));
 
 const Lco = () => {
-  const [data, setData] = useState(initialData);
   const [showModal, setShowModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
